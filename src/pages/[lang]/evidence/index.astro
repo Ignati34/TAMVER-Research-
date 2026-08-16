@@ -29,8 +29,8 @@ const items=v12EvidenceFixture
         <h3>{item.title}</h3>
         <p>{item.excerpt}</p>
         <div>
-          <a class="tv-chip" href={`/evidence/${item.id}/`}>{m.evidence.provenance}</a>
-          <a class="tv-chip" href={`/impact/${item.id}/`}>{m.evidence.impact}</a>
+          <a class="tv-chip" href={`/${lang}/evidence/${item.id}/`}>{m.evidence.provenance}</a>
+          <a class="tv-chip" href={`/${lang}/impact/${item.id}/`}>{m.evidence.impact}</a>
         </div>
       </article>)}
     </div>
