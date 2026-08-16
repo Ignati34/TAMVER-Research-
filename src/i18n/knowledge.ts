@@ -20,16 +20,21 @@ const typeCopy:Record<string,Partial<Record<Lang,string>>>={
 };
 
 const tagCopy:Record<string,Partial<Record<Lang,string>>>={
-  'air':{ru:'AIR'},
+  'air':{ru:'AIR',es:'AIR',ca:'AIR',fr:'AIR',de:'AIR',it:'AIR',pt:'AIR'},
   'interdependency':{ru:'ВЗАИМОЗАВИСИМОСТИ',es:'INTERDEPENDENCIAS',ca:'INTERDEPENDÈNCIES',fr:'INTERDÉPENDANCES',de:'INTERDEPENDENZEN',it:'INTERDIPENDENZE',pt:'INTERDEPENDÊNCIAS'},
-  'dss':{ru:'DSS'},
-  'decision security':{ru:'DECISION SECURITY'},
+  'risk':{ru:'РИСК',es:'RIESGO',ca:'RISC',fr:'RISQUE',de:'RISIKO',it:'RISCHIO',pt:'RISCO'},
+  'dss':{ru:'DSS',es:'DSS',ca:'DSS',fr:'DSS',de:'DSS',it:'DSS',pt:'DSS'},
+  'decision security':{ru:'DECISION SECURITY',es:'DECISION SECURITY',ca:'DECISION SECURITY',fr:'DECISION SECURITY',de:'DECISION SECURITY',it:'DECISION SECURITY',pt:'DECISION SECURITY'},
+  'governance':{ru:'УПРАВЛЕНИЕ',es:'GOBERNANZA',ca:'GOVERNANÇA',fr:'GOUVERNANCE',de:'UNTERNEHMENSFÜHRUNG',it:'GOVERNO',pt:'GOVERNAÇÃO'},
   'evidence':{ru:'ДОКАЗАТЕЛЬСТВА',es:'EVIDENCIA',ca:'EVIDÈNCIA',fr:'PREUVES',de:'EVIDENZ',it:'EVIDENZE',pt:'EVIDÊNCIA'},
   'sources':{ru:'ИСТОЧНИКИ',es:'FUENTES',ca:'FONTS',fr:'SOURCES',de:'QUELLEN',it:'FONTI',pt:'FONTES'},
+  'auditability':{ru:'АУДИРУЕМОСТЬ',es:'AUDITABILIDAD',ca:'AUDITABILITAT',fr:'AUDITABILITÉ',de:'PRÜFBARKEIT',it:'VERIFICABILITÀ',pt:'AUDITABILIDADE'},
   'family business':{ru:'СЕМЕЙНЫЙ БИЗНЕС',es:'EMPRESA FAMILIAR',ca:'EMPRESA FAMILIAR',fr:'ENTREPRISE FAMILIALE',de:'FAMILIENUNTERNEHMEN',it:'IMPRESA FAMILIARE',pt:'EMPRESA FAMILIAR'},
-  'governance':{ru:'УПРАВЛЕНИЕ',es:'GOBERNANZA',ca:'GOVERNANÇA',fr:'GOUVERNANCE',de:'GOVERNANCE',it:'GOVERNANCE',pt:'GOVERNAÇÃO'},
   'scenario':{ru:'СЦЕНАРИИ',es:'ESCENARIOS',ca:'ESCENARIS',fr:'SCÉNARIOS',de:'SZENARIEN',it:'SCENARI',pt:'CENÁRIOS'},
   'stress testing':{ru:'СТРЕСС-ТЕСТ',es:'PRUEBA DE ESTRÉS',ca:'PROVA D’ESTRÈS',fr:'TEST DE RÉSISTANCE',de:'STRESSTEST',it:'STRESS TEST',pt:'TESTE DE STRESS'},
+  'scm':{ru:'SCM',es:'SCM',ca:'SCM',fr:'SCM',de:'SCM',it:'SCM',pt:'SCM'},
+  'coherence':{ru:'СОГЛАСОВАННОСТЬ',es:'COHERENCIA',ca:'COHERÈNCIA',fr:'COHÉRENCE',de:'KOHÄRENZ',it:'COERENZA',pt:'COERÊNCIA'},
+  'stability':{ru:'УСТОЙЧИВОСТЬ',es:'ESTABILIDAD',ca:'ESTABILITAT',fr:'STABILITÉ',de:'STABILITÄT',it:'STABILITÀ',pt:'ESTABILIDADE'},
   'decision audit':{ru:'АУДИТ РЕШЕНИЙ',es:'AUDITORÍA DE DECISIONES',ca:'AUDITORIA DE DECISIONS',fr:'AUDIT DES DÉCISIONS',de:'ENTSCHEIDUNGSAUDIT',it:'AUDIT DELLE DECISIONI',pt:'AUDITORIA DE DECISÕES'},
   'strategy':{ru:'СТРАТЕГИЯ',es:'ESTRATEGIA',ca:'ESTRATÈGIA',fr:'STRATÉGIE',de:'STRATEGIE',it:'STRATEGIA',pt:'ESTRATÉGIA'},
   'research':{ru:'ИССЛЕДОВАНИЯ',es:'INVESTIGACIÓN',ca:'RECERCA',fr:'RECHERCHE',de:'FORSCHUNG',it:'RICERCA',pt:'INVESTIGAÇÃO'}
