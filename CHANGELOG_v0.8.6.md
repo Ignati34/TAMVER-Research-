@@ -8,6 +8,13 @@ Expands the three previously minimal canonical English Research/Knowledge articl
 - Strategic Decision Audit
 - Decision Security Research Program
 
+## Knowledge index localization correction
+- Localized the visible card category labels (`methodology`, `research`, `evidence`, `industry`, `product`) instead of rendering the English source values from Markdown.
+- Localized visible card tags instead of rendering English source tags.
+- Improved Russian display titles for `Strategic Decision Audit` and `Decision Security Research Program` while preserving their canonical TAMVER names.
+- Removed the remaining English word `governance` from the Russian Family Business card description.
+- Canonical English Markdown values remain unchanged as source metadata.
+
 ## Content principles
 - Uses existing TAMVER methodology, product architecture, family-business research and evidence-governance logic as the source basis.
 - Adds no unsupported quantitative market claims.
