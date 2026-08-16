@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import EvidenceImpactCrystal from '../../../components/EvidenceImpactCrystal';
+import { localizedLangs, isLang, type Lang } from '../../../i18n/config';
+import { localizeEvidenceItem } from '../../../i18n/evidence-content';
+import { evidenceUi } from '../../../i18n/evidence-ui';
+import { v12EvidenceFixture } from '../../../lib/ledger/v12-fixture';
+
+export function getStaticPaths(){
+  return localizedLangs.flatMap(lang =>
+    v12EvidenceFixture.map(evidence => ({ params:{lang,id:evidence.id} }))
+  );
+}
+
+const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang;
+const raw=v12EvidenceFixture.find(e=>e.id===Astro.params.id);
+if(!raw) return Astro.redirect(`/${lang}/evidence/`);
+const evidence=localizeEvidenceItem(raw as any,lang);
+const ui=evidenceUi(lang);
+---
+<BaseLayout title={`${ui.impactEyebrow} · ${evidence.title}`} description={evidence.excerpt} lang={lang}>
+  <section class="tv-shell tv-section impact-hero-copy">
+    <nav class="detail-nav" aria-label="Breadcrumb">
+      <a href={`/${lang}/evidence/${evidence.id}/`}>← {ui.backToEvidence}</a>
+    </nav>
+
+    <div class="tv-eyebrow">{ui.impactEyebrow} / {evidence.status}</div>
+    <h1 class="tv-h1">{evidence.title}</h1>
+    <p class="tv-lead">{evidence.excerpt}</p>
+    <div class="impact-meta">
+      <span class="tv-chip">{ui.quality} {evidence.qualityScore}</span>
+      <span class="tv-chip">{ui.confidence} {Math.round(evidence.confidence*100)}%</span>
+      <span class="tv-chip">{ui.analyst} {evidence.analystValidated ? ui.validated : ui.pending}</span>
+    </div>
+  </section>
+
+  <section class="tv-section">
+    <EvidenceImpactCrystal client:load evidenceId={evidence.id} />
+  </section>
+
+  <div class="tv-shell impact-back">
+    <a class="tv-chip" href={`/${lang}/evidence/${evidence.id}/`}>← {ui.backToEvidence}</a>
+    <a class="tv-chip" href={`/${lang}/evidence/`}>{ui.backToRegistry}</a>
+  </div>
+</BaseLayout>
+
+<style>
+.detail-nav{margin-bottom:36px}.detail-nav a{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,241,234,.54)}.impact-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}.impact-back{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:70px}
+</style>
