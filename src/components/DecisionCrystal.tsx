@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import { t } from '../i18n/messages';
 import { localizePath, type Lang } from '../i18n/config';
 
+type CrystalVariant='hybrid'|'interactive'|'static';
+
 type NodeDef={
   id:string;
   label:string;
@@ -45,20 +47,40 @@ function diamondGeometry(){
   geo.setIndex(faces);geo.computeVertexNormals();return geo;
 }
 
-export default function DecisionCrystal({lang='en'}:{lang?:Lang}){
+export default function DecisionCrystal({
+  lang='en',
+  variant='hybrid',
+  artworkSrc='/images/knowledge-crystal-full-clean.webp',
+  showModeSwitcher=true
+}:{
+  lang?:Lang;
+  variant?:CrystalVariant;
+  artworkSrc?:string;
+  showModeSwitcher?:boolean;
+}){
   const m=t(lang);
   const nodeCopy={AIR:{label:'AIR',sub:m.crystal.airSub},DSS:{label:'DSS',sub:m.crystal.dssSub},SCM:{label:'SCM',sub:m.crystal.scmSub},STS:{label:m.crystal.scenario,sub:m.crystal.scenarioSub},EVI:{label:m.crystal.evidence,sub:m.crystal.evidenceSub}} as const;
   const mount=useRef<HTMLDivElement>(null);
   const activateRef=useRef<(id:string,preview?:boolean)=>void>(()=>{});
   const [active,setActive]=useState(m.crystal.knowledgeGraph);
   const [flash,setFlash]=useState<string|null>(null);
+  const [mode,setMode]=useState<CrystalVariant>(variant);
+  const [artworkAvailable,setArtworkAvailable]=useState(true);
+
+  useEffect(()=>{
+    setMode(variant);
+  },[variant]);
 
   useEffect(()=>{
     const el=mount.current;if(!el)return;
+    activateRef.current=()=>{};
+    if(mode==='static') return;
+
     const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     const scene=new THREE.Scene();
     const camera=new THREE.PerspectiveCamera(33,el.clientWidth/el.clientHeight,.1,100);
-    camera.position.set(0,-.02,9.35);
+    // Slightly wider framing than v0.8.4.1 so the full crown and pavilion stay visible.
+    camera.position.set(0,-.02,10.05);
 
     const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
     renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(el.clientWidth,el.clientHeight);
@@ -67,16 +89,22 @@ export default function DecisionCrystal({lang='en'}:{lang?:Lang}){
     el.appendChild(renderer.domElement);
 
     const group=new THREE.Group();
-    group.scale.setScalar(1.52);
-    group.position.y=.10;
+    group.scale.setScalar(mode==='hybrid'?1.34:1.46);
+    group.position.y=.18;
     scene.add(group);
 
     const geo=diamondGeometry();
-    const mat=new THREE.MeshPhysicalMaterial({color:0x4b4437,emissive:0x5a3518,emissiveIntensity:.08,metalness:.34,roughness:.14,transmission:.58,thickness:1.8,ior:1.5,clearcoat:1,clearcoatRoughness:.05,transparent:true,opacity:.34,side:THREE.DoubleSide});
+    const mat=new THREE.MeshPhysicalMaterial({
+      color:0x4b4437,emissive:0x5a3518,emissiveIntensity:.08,metalness:.34,roughness:.14,
+      transmission:.58,thickness:1.8,ior:1.5,clearcoat:1,clearcoatRoughness:.05,
+      transparent:true,opacity:mode==='hybrid'?.18:.34,side:THREE.DoubleSide
+    });
     const mesh=new THREE.Mesh(geo,mat);group.add(mesh);
 
     const edgeGeo=new THREE.EdgesGeometry(geo,5);
-    const baseEdgeMat=new THREE.LineBasicMaterial({color:0xffd9a2,transparent:true,opacity:.70,blending:THREE.AdditiveBlending});
+    const baseEdgeMat=new THREE.LineBasicMaterial({
+      color:0xffd9a2,transparent:true,opacity:mode==='hybrid'?.58:.70,blending:THREE.AdditiveBlending
+    });
     const baseEdges=new THREE.LineSegments(edgeGeo,baseEdgeMat);baseEdges.renderOrder=2;group.add(baseEdges);
 
     const pulseUniforms={uTime:{value:-99},uOrigin:{value:new THREE.Vector3(1.5,.5,0)},uStrength:{value:0},uColor:{value:new THREE.Color(0xffd9a2)}};
@@ -87,13 +115,24 @@ export default function DecisionCrystal({lang='en'}:{lang?:Lang}){
     });
     const pulseEdges=new THREE.LineSegments(edgeGeo,pulseMat);pulseEdges.renderOrder=5;group.add(pulseEdges);
 
-    const innerMat=mat.clone();innerMat.opacity=.08;innerMat.emissiveIntensity=.03;
+    const innerMat=mat.clone();innerMat.opacity=mode==='hybrid'?.035:.08;innerMat.emissiveIntensity=.03;
     const inner=new THREE.Mesh(geo,innerMat);inner.scale.setScalar(.78);group.add(inner);
+
+    // Foundation rings make the lower termination read as a complete system rather than a cropped pavilion.
+    const foundation=new THREE.Group();
+    foundation.position.y=-3.03;
+    foundation.rotation.x=Math.PI/2;
+    [1.02,1.38,1.82].forEach((r,i)=>{
+      const rg=new THREE.RingGeometry(r-.008,r+.008,96);
+      const rm=new THREE.MeshBasicMaterial({color:0xb58952,transparent:true,opacity:.20-i*.045,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false});
+      const ring=new THREE.Mesh(rg,rm);foundation.add(ring);
+    });
+    scene.add(foundation);
 
     const cageObjects:THREE.LineSegments[]=[];
     [2.45,3.08].forEach((s,i)=>{
       const c=new THREE.IcosahedronGeometry(s,1);
-      const cm=new THREE.LineBasicMaterial({color:0xa88455,transparent:true,opacity:.055});
+      const cm=new THREE.LineBasicMaterial({color:0xa88455,transparent:true,opacity:mode==='hybrid'?.035:.055});
       const l=new THREE.LineSegments(new THREE.EdgesGeometry(c,10),cm);
       l.rotation.set(.2+i*.3,.3+i*.5,.15);scene.add(l);cageObjects.push(l);
     });
@@ -135,9 +174,11 @@ export default function DecisionCrystal({lang='en'}:{lang?:Lang}){
       signalLight.intensity=live?12*decay*previewStrength:0;
       mat.emissiveIntensity=.08+(live?1.05*decay*previewStrength:(reducedMotion?0:.04*Math.sin(now*.9)));
       if(!reducedMotion){
+        // True Three.js Y rotation remains active in both interactive and hybrid modes.
         group.rotation.y+=.0011;
         group.rotation.x+=(my*.07-group.rotation.x)*.018;
         group.rotation.z+=(-mx*.048-group.rotation.z)*.018;
+        foundation.rotation.z-=.00042;
       }
       renderer.render(scene,camera);
     };
@@ -146,10 +187,11 @@ export default function DecisionCrystal({lang='en'}:{lang?:Lang}){
     return()=>{
       cancelAnimationFrame(raf);window.removeEventListener('resize',resize);el.removeEventListener('pointermove',move);
       geo.dispose();edgeGeo.dispose();mat.dispose();innerMat.dispose();baseEdgeMat.dispose();pulseMat.dispose();pg.dispose();pointsMat.dispose();
+      foundation.children.forEach(o=>{const mesh=o as THREE.Mesh;mesh.geometry.dispose();(mesh.material as THREE.Material).dispose()});
       cageObjects.forEach(o=>{o.geometry.dispose();(o.material as THREE.Material).dispose()});renderer.dispose();
       if(el.contains(renderer.domElement))el.removeChild(renderer.domElement);
     };
-  },[]);
+  },[mode]);
 
   const trigger=(id:string,label:string,preview=false)=>{
     setActive(label);activateRef.current(id,preview);
@@ -158,8 +200,17 @@ export default function DecisionCrystal({lang='en'}:{lang?:Lang}){
 
   const coreHref=localizePath(dssCore.href,lang);
   const coreLabel=m.crystal.dssCore, coreSub=m.crystal.dssCoreSub;
+  const showArtwork=mode!=='interactive'&&artworkAvailable&&Boolean(artworkSrc);
 
-  return <div className="crystal-wrap">
+  return <div className={`crystal-wrap crystal-mode-${mode}`}>
+    {showArtwork&&<img
+      className="crystal-artwork"
+      src={artworkSrc}
+      alt=""
+      aria-hidden="true"
+      onError={()=>setArtworkAvailable(false)}
+      draggable={false}
+    />}
     <div ref={mount} className="crystal-canvas"/>
     <div className="core-label"><span>TAMVER</span><strong>DECISION<br/>SECURITY</strong><small>{active}</small></div>
     <svg className="network-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -197,5 +248,15 @@ export default function DecisionCrystal({lang='en'}:{lang?:Lang}){
         window.setTimeout(()=>{window.location.href=coreHref},520);
       }}
     ><i/><b>{coreLabel}</b><span>{coreSub}</span></a>
+
+    {showModeSwitcher&&<div className="crystal-mode-switcher" role="group" aria-label="Crystal view mode">
+      {(['hybrid','interactive','static'] as CrystalVariant[]).map(v=><button
+        key={v}
+        type="button"
+        className={mode===v?'active':''}
+        aria-pressed={mode===v}
+        onClick={()=>setMode(v)}
+      >{v}</button>)}
+    </div>}
   </div>;
 }
