@@ -1,5 +1,5 @@
 {
-  "name": "tamver-research-v0.8.5-research-knowledge-translation",
+  "name": "tamver-research-v0.8.4.1-language-switcher-polish",
   "private": true,
   "type": "module",
   "scripts": {
@@ -19,5 +19,5 @@
     "@types/react-dom": "^19.0.0",
     "@types/three": "^0.180.0"
   },
-  "version": "0.8.5"
+  "version": "0.8.3"
 }
