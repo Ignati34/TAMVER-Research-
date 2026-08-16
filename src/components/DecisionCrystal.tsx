@@ -50,7 +50,7 @@ function diamondGeometry(){
 export default function DecisionCrystal({
   lang='en',
   variant='hybrid',
-  artworkSrc='/images/knowledge-crystal-full-clean.webp',
+  artworkSrc='/images/knowledge-crystal-full-clean.png',
   showModeSwitcher=true
 }:{
   lang?:Lang;
@@ -79,8 +79,8 @@ export default function DecisionCrystal({
     const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     const scene=new THREE.Scene();
     const camera=new THREE.PerspectiveCamera(33,el.clientWidth/el.clientHeight,.1,100);
-    // Slightly wider framing than v0.8.4.1 so the full crown and pavilion stay visible.
-    camera.position.set(0,-.02,10.05);
+    // Wider and slightly lower camera framing keeps the entire crystal and foundation visible.
+    camera.position.set(0,-.24,10.70);
 
     const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
     renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(el.clientWidth,el.clientHeight);
@@ -89,8 +89,8 @@ export default function DecisionCrystal({
     el.appendChild(renderer.domElement);
 
     const group=new THREE.Group();
-    group.scale.setScalar(mode==='hybrid'?1.34:1.46);
-    group.position.y=.18;
+    group.scale.setScalar(mode==='hybrid'?1.24:1.38);
+    group.position.y=.24;
     scene.add(group);
 
     const geo=diamondGeometry();
@@ -118,9 +118,9 @@ export default function DecisionCrystal({
     const innerMat=mat.clone();innerMat.opacity=mode==='hybrid'?.035:.08;innerMat.emissiveIntensity=.03;
     const inner=new THREE.Mesh(geo,innerMat);inner.scale.setScalar(.78);group.add(inner);
 
-    // Foundation rings make the lower termination read as a complete system rather than a cropped pavilion.
+    // Foundation rings are intentionally placed higher than before so they remain inside the camera frame.
     const foundation=new THREE.Group();
-    foundation.position.y=-3.03;
+    foundation.position.y=-2.82;
     foundation.rotation.x=Math.PI/2;
     [1.02,1.38,1.82].forEach((r,i)=>{
       const rg=new THREE.RingGeometry(r-.008,r+.008,96);
@@ -174,7 +174,6 @@ export default function DecisionCrystal({
       signalLight.intensity=live?12*decay*previewStrength:0;
       mat.emissiveIntensity=.08+(live?1.05*decay*previewStrength:(reducedMotion?0:.04*Math.sin(now*.9)));
       if(!reducedMotion){
-        // True Three.js Y rotation remains active in both interactive and hybrid modes.
         group.rotation.y+=.0011;
         group.rotation.x+=(my*.07-group.rotation.x)*.018;
         group.rotation.z+=(-mx*.048-group.rotation.z)*.018;
