@@ -5,6 +5,7 @@ import { localizedLangs,isLang,type Lang } from '../../../i18n/config';
 import { t } from '../../../i18n/messages';
 import { localizeKnowledge } from '../../../i18n/knowledge';
 import { getMethodologyArticle } from '../../../i18n/methodology-content';
+import { getResearchKnowledgeArticle } from '../../../i18n/research-knowledge-content';
 
 export async function getStaticPaths(){
   const items=await getCollection('knowledge');
@@ -16,7 +17,7 @@ const {item}=Astro.props;
 const {Content}=await render(item);
 const id=item.id.replace(/\.(md|mdx)$/,'');
 const c=localizeKnowledge(id,lang,item.data.title,item.data.description);
-const translated=getMethodologyArticle(id,lang);
+const translated=getMethodologyArticle(id,lang) ?? getResearchKnowledgeArticle(id,lang);
 ---
 <BaseLayout title={c.title} description={c.description} lang={lang}>
   <article class="tv-section tv-shell prose-wrap">
