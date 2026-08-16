@@ -1,6 +1,11 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LedgerTraceExplorer from "../../components/LedgerTraceExplorer";
+
+export function getStaticPaths() {
+  return [{ params: { id: "claim-scm" } }];
+}
+
 const { id } = Astro.params;
 ---
 <BaseLayout title={`Evidence Trace — ${id}`}>
