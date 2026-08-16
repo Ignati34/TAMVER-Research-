@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';import { getCollection } from 'astro:content';
+const items=(await getCollection('knowledge')).filter(x=>x.data.type==='research');
+---
+<BaseLayout title="Research"><section class="tv-section tv-shell"><div class="tv-eyebrow">TAMVER RESEARCH / RESEARCH</div><h1 class="tv-h1">Research</h1><div class="tv-grid">{items.map((item,i)=><a class="tv-panel" style="grid-column:span 6" href={`/knowledge/${item.id.replace(/\.(md|mdx)$/,'')}/`}><span class="tv-index">{String(i+1).padStart(2,'0')}</span><h3>{item.data.title}</h3><p>{item.data.description}</p></a>)}</div></section></BaseLayout>

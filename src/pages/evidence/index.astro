@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { v12EvidenceFixture } from "../../lib/ledger/v12-fixture";
+import { sanitizeEvidence } from "../../lib/ledger/publication-gateway";
+const items=v12EvidenceFixture.map(sanitizeEvidence).filter(Boolean);
+---
+<BaseLayout title="Evidence">
+<section class="tv-shell tv-section">
+  <div class="tv-eyebrow">TAMVER RESEARCH / DECISION EVIDENCE LEDGER V12</div>
+  <h1 class="tv-h1">Evidence Registry</h1>
+  <p class="tv-lead">Validated public evidence items with backward provenance and a forward impact projection.</p>
+  <div class="tv-grid" style="margin-top:60px">
+    {items.map((item:any)=><article class="tv-panel" style="grid-column:span 4">
+      <span class="tv-index">{item.status} · Q{item.qualityScore}</span><h3>{item.title}</h3><p>{item.excerpt}</p>
+      <div><a class="tv-chip" href={`/evidence/${item.id}/`}>PROVENANCE</a><a class="tv-chip" href={`/impact/${item.id}/`}>IMPACT CRYSTAL</a></div>
+    </article>)}
+  </div>
+</section>
+</BaseLayout>

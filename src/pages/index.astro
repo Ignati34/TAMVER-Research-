@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'; import CrystalHero from '../components/CrystalHero.astro'; import { getCollection } from 'astro:content';
+import { t } from '../i18n/messages'; import { localizeKnowledge } from '../i18n/knowledge'; import type { Lang } from '../i18n/config';
+const lang:Lang='en', m=t(lang); const items=(await getCollection('knowledge')).slice(0,8);
+---
+<BaseLayout title="Decision Security Knowledge Graph" lang={lang}><CrystalHero lang={lang} eyebrow={m.home.eyebrow} title={m.home.title} text={m.home.lead}/><div class="tv-rule"></div><section class="tv-section tv-shell"><div class="tv-eyebrow">{m.home.sectionEyebrow}</div><h2 class="tv-h2">{m.home.sectionTitle.split('\\n').map((x,i)=><>{i>0&&<br/>}{x}</>)}</h2><div class="tv-grid list">{items.map((item,i)=>{const c=localizeKnowledge(item.id.replace(/\.(md|mdx)$/,''),lang,item.data.title,item.data.description);return <a class="tv-panel" style={`grid-column:span 4`} href={`/knowledge/${item.id.replace(/\.(md|mdx)$/,'')}/`}><span class="tv-index">{String(i+1).padStart(2,'0')}</span><div class="tv-eyebrow">{item.data.type}</div><h3>{c.title}</h3><p>{c.description}</p></a>})}</div></section></BaseLayout>
+<style>@media(max-width:900px){.list :global(.tv-panel){grid-column:1/-1!important}}</style>

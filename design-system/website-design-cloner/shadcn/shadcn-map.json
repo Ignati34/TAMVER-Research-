@@ -1,0 +1,13 @@
+{
+  "background": "tamver-color-background",
+  "foreground": "tamver-color-foreground-dark",
+  "card": "tamver-color-surface-dark",
+  "card-foreground": "tamver-color-foreground-dark",
+  "primary": "tamver-color-energy",
+  "primary-foreground": "tamver-color-background",
+  "destructive": "tamver-color-alert",
+  "border": "tamver-border-hairline",
+  "ring": "tamver-color-energy",
+  "radius": "0px",
+  "status": "inferred semantic bridge validated against TAMVER visual grammar"
+}

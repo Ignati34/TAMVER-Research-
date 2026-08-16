@@ -1,0 +1,2 @@
+@import "./tokens.css";
+*{box-sizing:border-box} body{margin:0;background:var(--tamver-color-background);color:var(--tamver-color-foreground-dark);font-family:var(--tamver-font-body)}

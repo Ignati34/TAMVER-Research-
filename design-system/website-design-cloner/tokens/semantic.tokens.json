@@ -1,0 +1,42 @@
+{
+  "color.background": {
+    "value": "#050704",
+    "status": "inferred-calibrated"
+  },
+  "color.background.deep": {
+    "value": "#020302",
+    "status": "inferred-calibrated"
+  },
+  "color.surface.dark": {
+    "value": "#0b1008",
+    "status": "inferred-calibrated"
+  },
+  "color.surface.light": {
+    "value": "#e8e8e6",
+    "status": "inferred-calibrated"
+  },
+  "color.foreground.dark": {
+    "value": "#f4f1ea",
+    "status": "inferred-calibrated"
+  },
+  "color.foreground.light": {
+    "value": "#2b2d29",
+    "status": "inferred-calibrated"
+  },
+  "color.brand.energy": {
+    "value": "#f5c68b",
+    "status": "inferred-calibrated from observed glow"
+  },
+  "color.signal.alert": {
+    "value": "#df302b",
+    "status": "inferred Research interaction token"
+  },
+  "radius.card": {
+    "value": "0px",
+    "status": "observed geometry"
+  },
+  "font.body": {
+    "value": "Helvetica Neue, Helvetica, Arial, sans-serif",
+    "status": "inferred fallback"
+  }
+}

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { terminology, termIds } from '../i18n/terminology';
+import type { Lang } from '../i18n/config';
+const lang:Lang='en';
+const rows=termIds.map(id=>({id,...terminology[lang][id]}));
+const termLabel = (id: string) => id.replace(/([a-z0-9])([A-Z])/g, '$1 $2').toUpperCase();
+---
+<BaseLayout title="TAMVER Terminology" description="Controlled TAMVER terminology for Decision Security, DSS, AIR, SCM and evidence architecture." lang={lang}>
+<section class="tv-page-shell tv-glossary-page">
+  <p class="tv-eyebrow">TAMVER RESEARCH / CONTROLLED TERMINOLOGY / v0.8.2</p>
+  <h1>Terminology\nRegistry</h1>
+  <p class="tv-lead">Canonical TAMVER terms and approved explanatory equivalents. English canonical labels remain stable identifiers across the multilingual system.</p>
+  <div class="tv-glossary-grid">
+    {rows.map(row => <article class="tv-glossary-card" id={row.id}>
+      <div class="tv-glossary-head"><span>{row.canonical}</span><code>{termLabel(row.id)}</code></div>
+      <h2>{row.localized}</h2><p>{row.definition}</p><div class="tv-term-usage"><strong>Usage</strong><span>{row.usage}</span></div>
+    </article>)}
+  </div>
+</section>
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EvidenceImpactCrystal from "../../components/EvidenceImpactCrystal";
+---
+<BaseLayout title="Evidence Impact Crystal" description="Forward evidence impact projection for the TAMVER Decision Evidence Ledger.">
+  <section class="tv-shell tv-section impact-hero-copy">
+    <div class="tv-eyebrow">TAMVER RESEARCH / V0.5</div>
+    <h1 class="impact-title">Evidence<br/>Impact Crystal</h1>
+    <p class="tv-lead">Start from a validated evidence item and see which scenario nodes, formulas, metrics, decision gate and report claim are implicated by the existing v12 provenance trace.</p>
+  </section>
+  <section class="tv-section"><EvidenceImpactCrystal client:load evidenceId="ev-supplier-single-point" /></section>
+  <section class="tv-shell tv-section impact-explain">
+    <div class="tv-eyebrow">WHAT IS EXACT / WHAT IS PROJECTED</div>
+    <div class="tv-grid">
+      <div class="tv-panel" style="grid-column:span 6"><span class="tv-index">01 / V12 FACT</span><h3>Backward provenance is native</h3><p>Claim → metric → formula/scenario nodes and claim → evidence → source are relationships already contained in the v12 Ledger trace.</p></div>
+      <div class="tv-panel" style="grid-column:span 6"><span class="tv-index">02 / V0.5 PROJECTION</span><h3>Forward impact is derived</h3><p>The Research layer reverses only those known relationships. It does not invent formula input-level lineage that v12 does not store.</p></div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,13 @@
+{
+  "site": "tamver.eu",
+  "generated_at": "2026-08-09T22:29:08.278239+00:00",
+  "source_engine_requested": "Dembrandt",
+  "source_engine_executed": false,
+  "runtime_blocker": "internal npm registry returned 404 for dembrandt",
+  "fallback_mode": "authorized browser+screenshot evidence",
+  "generator": "website-design-cloner workflow",
+  "raw_extraction_present": true,
+  "dtcg_present": true,
+  "design_md_present": true,
+  "semantic_aliases_are_inferred_by_default": true
+}

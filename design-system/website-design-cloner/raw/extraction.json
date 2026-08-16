@@ -1,0 +1,119 @@
+{
+  "source": {
+    "url": "https://tamver.eu/",
+    "authorization": "user-owned/authorized target",
+    "capture_date": "2026-08-10",
+    "engine_requested": "Dembrandt",
+    "engine_status": "unavailable in current runtime: npm registry 404 for dembrandt",
+    "fallback_evidence": [
+      "live browser-rendered page text",
+      "authorized 3-page full-site screencapture",
+      "user-provided globe motion reference",
+      "site HTML/schema excerpt"
+    ]
+  },
+  "brand": {
+    "wordmark": {
+      "text": "TAMVER",
+      "tracking": "very wide",
+      "case": "uppercase",
+      "status": "observed"
+    },
+    "logo_asset": {
+      "intrinsic_width": "1340px",
+      "intrinsic_height": "348px",
+      "status": "observed from site schema/HTML"
+    },
+    "visual_character": [
+      "editorial",
+      "institutional",
+      "quiet luxury",
+      "dark organic imagery",
+      "hairline geometry",
+      "warm amber illumination"
+    ]
+  },
+  "colors": {
+    "page_background": "#050704",
+    "page_background_deep": "#020302",
+    "dark_olive_surface": "#0b1008",
+    "dark_olive_secondary": "#171b10",
+    "light_editorial_surface": "#e8e8e6",
+    "light_editorial_surface_soft": "#f0f0ee",
+    "text_on_dark": "rgba(244,241,234,.92)",
+    "muted_on_dark": "rgba(230,228,219,.62)",
+    "text_on_light": "#2b2d29",
+    "hairline_dark": "rgba(235,232,221,.18)",
+    "hairline_soft": "rgba(235,232,221,.095)",
+    "warm_illumination": "#f5c68b",
+    "warm_illumination_hot": "#ffdca8",
+    "alert_motion": "#df302b"
+  },
+  "typography": {
+    "observed": {
+      "wordmark_tracking": ".34em",
+      "nav_case": "uppercase",
+      "section_headings_case": "uppercase",
+      "overall_weight": "light/thin",
+      "body_density": "compact editorial paragraphs"
+    },
+    "font_family": {
+      "value": "not reliably observable from available evidence",
+      "status": "unresolved"
+    },
+    "implementation_fallback": {
+      "value": "Helvetica Neue, Helvetica, Arial, sans-serif",
+      "status": "inferred"
+    }
+  },
+  "spacing": {
+    "page_gutter": "clamp(22px,4.2vw,72px)",
+    "section_spacing": "clamp(78px,9vw,150px)",
+    "nav_gap": "31px",
+    "card_padding": "27px",
+    "status": "calibrated from screenshot proportions; inferred exact values"
+  },
+  "radii": {
+    "cards": "0px",
+    "surfaces": "0px",
+    "nodes": "50%",
+    "status": "observed geometry; exact px inferred"
+  },
+  "borders": {
+    "default": "1px solid rgba(235,232,221,.18)",
+    "soft": "1px solid rgba(235,232,221,.095)",
+    "status": "observed hairline language; alpha calibrated"
+  },
+  "shadows": {
+    "default": "none/minimal",
+    "motion_glow": "warm amber bloom only on active/light elements",
+    "status": "observed visual behavior"
+  },
+  "surfaces": {
+    "dark_sections": "near-black/olive photographic surfaces",
+    "light_sections": "neutral off-white editorial panels",
+    "cards": "mostly square, thin border or light paper blocks",
+    "status": "observed"
+  },
+  "components": {
+    "header": "large spaced TAMVER wordmark; minimal menu icon; transparent over hero",
+    "hero": "full-bleed cinematic image/video with overlaid editorial labels and thin progress line",
+    "feature_grid": "2-column outlined cards on dark organic image surface",
+    "cooperation_cards": "3-column light editorial cards with photographic lower half",
+    "footer": "dark surface, horizontal geographic timeline MADRID / VIENNA / ANDORRA",
+    "status": "observed from authorized capture"
+  },
+  "motion": {
+    "globe": "warm amber light tracing globe lines and nodes; luminous halo",
+    "research_crystal_mapping": "touch node -> brief red flash -> amber/white propagation across crystal edges -> fade to ambient",
+    "status": "globe motion observed from user-supplied visual reference; crystal behavior is inferred adaptation"
+  },
+  "responsive": {
+    "desktop": "observed",
+    "mobile": "not extracted in this run",
+    "status": "desktop observed; mobile implementation remains inferred until mobile extraction"
+  },
+  "wcag": {
+    "status": "Dembrandt --wcag could not execute in current runtime; no fabricated findings"
+  }
+}

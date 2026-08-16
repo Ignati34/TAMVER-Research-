@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AndorraScenarioLab from '../../components/AndorraScenarioLab';
+---
+<BaseLayout title="Andorra 2035 — Interactive Decision Security Demo" lang="en">
+<section class="tv-section tv-shell case-head">
+  <div class="tv-eyebrow">CASE / ANDORRA 2035 / INTERACTIVE DEMONSTRATION</div>
+  <h1 class="tv-h1">Andorra 2035.<br/>Decision Security Scenario Lab.</h1>
+  <p class="tv-lead">A controllable demonstration of the supplied TAMVER DSS / AIR / SCM engines: change scenario inputs, AIR dependencies, SCM axes and DSS domains and watch the calculated coefficients and Decision Crystal respond.</p>
+  <div class="warning">DEMONSTRATION · ILLUSTRATIVE CASSETTE DATA · NOT AN OFFICIAL RATING OR CERTIFICATION</div>
+</section>
+<section class="tv-shell"><AndorraScenarioLab client:load lang="en"/></section>
+<section class="tv-section tv-shell source-note">
+  <div class="tv-eyebrow">DEMO MODEL BOUNDARY</div>
+  <p>The calculation logic is based on the supplied TAMVER demo application and cassette. It keeps the demo formulas for DSS, AIR, SCM and Scenario Engine separate. No additional “hidden” composite coefficient has been invented for this page.</p>
+</section>
+</BaseLayout>
+<style>
+.case-head{padding-bottom:46px}.warning{margin-top:38px;padding:15px 18px;border-left:1px solid rgba(245,198,139,.55);background:rgba(245,198,139,.035);font-size:10px;letter-spacing:.15em;color:rgba(244,241,234,.6)}.source-note{padding-top:54px}.source-note p{max-width:900px;color:rgba(244,241,234,.52);line-height:1.65;font-size:13px}
+</style>

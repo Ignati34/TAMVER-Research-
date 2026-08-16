@@ -1,0 +1,33 @@
+{
+  "colors": [
+    "#050704",
+    "#020302",
+    "#0b1008",
+    "#171b10",
+    "#e8e8e6",
+    "#f0f0ee",
+    "rgba(244,241,234,.92)",
+    "rgba(230,228,219,.62)",
+    "#2b2d29",
+    "rgba(235,232,221,.18)",
+    "rgba(235,232,221,.095)",
+    "#f5c68b",
+    "#ffdca8",
+    "#df302b"
+  ],
+  "fonts": [],
+  "spacing": [
+    "31px",
+    "27px",
+    "clamp(22px,4.2vw,72px)",
+    "clamp(78px,9vw,150px)"
+  ],
+  "radii": [
+    "0px",
+    "50%"
+  ],
+  "shadows": [
+    "warm amber bloom on active energy elements"
+  ],
+  "observed_vs_inferred_note": "Raw evidence includes calibrated values where CSS was not directly available; see status fields in raw/extraction.json."
+}

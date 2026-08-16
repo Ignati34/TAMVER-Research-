@@ -1,0 +1,60 @@
+---
+import '../styles/tamver.css';
+import { languages, supportedLangs, localizePath, stripLocale, type Lang } from '../i18n/config';
+import { t } from '../i18n/messages';
+const { title, description='TAMVER Research — Decision Security Knowledge Graph', lang='en' } = Astro.props as {title:string;description?:string;lang?:Lang};
+const m=t(lang); const basePath=stripLocale(Astro.url.pathname);
+const L=(path:string)=>localizePath(path,lang);
+const siteOrigin = (Astro.site?.origin ?? Astro.url.origin).replace(/\/$/, '');
+const absolutePath = (path:string) => `${siteOrigin}${path.startsWith('/') ? path : `/${path}`}`;
+const canonicalHref = absolutePath(Astro.url.pathname);
+---
+<!doctype html>
+<html lang={languages[lang].htmlLang}>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content={description}/>
+  <link rel="canonical" href={canonicalHref}/>
+  {supportedLangs.map(code => <link rel="alternate" hreflang={languages[code].htmlLang} href={absolutePath(localizePath(basePath,code))}/>) }
+  <link rel="alternate" hreflang="x-default" href={absolutePath(basePath)}/>
+  <title>{title} · TAMVER Research</title>
+</head>
+<body>
+<header class="tv-topbar">
+  <a class="tv-brand" href={L('/')} aria-label="TAMVER Research home"><span class="tv-brand-main">TAMVER</span><span class="tv-brand-rule" aria-hidden="true"></span><span class="tv-brand-sub">research</span></a>
+  <div class="tv-nav-wrap"><nav class="tv-nav" aria-label="Primary navigation"><a href={L('/knowledge/')}>{m.nav.knowledge}</a><a href={L('/methodologies/')}>{m.nav.methodologies}</a><a href={L('/research/')}>{m.nav.research}</a><a href={L('/evidence/')}>{m.nav.evidence}</a><a href={L('/impact/')}>{m.nav.impact}</a><a href="https://tamver.eu">TAMVER ↗</a></nav>
+  <div class="tv-header-actions">
+    <div class="tv-language-switcher" data-language-switcher>
+      <button class="tv-language-trigger" type="button" aria-label={m.nav.language} aria-expanded="false" aria-controls="tv-language-panel" data-language-button>
+        <span class="tv-language-globe" aria-hidden="true">
+          <svg viewBox="0 0 28 28" focusable="false">
+            <circle cx="14" cy="14" r="10.25"></circle>
+            <path d="M3.75 14h20.5"></path>
+            <path d="M14 3.75c3.15 3.05 4.72 6.47 4.72 10.25S17.15 21.2 14 24.25C10.85 21.2 9.28 17.78 9.28 14S10.85 6.8 14 3.75z"></path>
+            <path d="M6.25 8.25c2.4 1.05 5 1.58 7.75 1.58s5.35-.53 7.75-1.58"></path>
+            <path d="M6.25 19.75c2.4-1.05 5-1.58 7.75-1.58s5.35.53 7.75 1.58"></path>
+          </svg>
+        </span>
+        <span class="tv-language-code">{lang.toUpperCase()}</span>
+      </button>
+      <div class="tv-language-popover" id="tv-language-panel" aria-hidden="true" data-language-panel>
+        <div class="tv-menu-panel-head"><span>{m.nav.language}</span><span>{lang.toUpperCase()}</span></div>
+        <div class="tv-language-popover-grid">{supportedLangs.map(code => <a class:list={['tv-language-option',{active:code===lang}]} href={localizePath(basePath,code)} hreflang={languages[code].htmlLang} lang={languages[code].htmlLang}><b>{code.toUpperCase()}</b><span>{languages[code].nativeName}</span></a>)}</div>
+      </div>
+    </div>
+    <button class="tv-menu-button" type="button" aria-label={m.menu.open} aria-expanded="false" aria-controls="tv-menu-panel" data-menu-button><span aria-hidden="true">≡</span></button>
+  </div></div>
+  <aside class="tv-menu-panel" id="tv-menu-panel" aria-hidden="true" data-menu-panel>
+    <div class="tv-menu-panel-head"><span>{m.menu.title}</span><button type="button" class="tv-menu-close" aria-label={m.menu.close} data-menu-close>×</button></div>
+    <nav aria-label="Menu navigation"><a href={L('/knowledge/')}>{m.nav.knowledge}</a><a href={L('/methodologies/')}>{m.nav.methodologies}</a><a href={L('/research/')}>{m.nav.research}</a><a href={L('/evidence/')}>{m.nav.evidence}</a><a href={L('/impact/')}>{m.nav.impact}</a><a href={L('/ledger/')}>{m.nav.ledger}</a><a href={L('/glossary/')}>{m.nav.glossary}</a><a href={L('/cases/andorra-2035/')}>{m.nav.andorra}</a><a href="https://tamver.eu">tamver.eu ↗</a></nav>
+  </aside>
+</header>
+<main><slot/></main>
+<footer class="tv-footer"><a class="tv-footer-link tv-footer-brand" href={L('/')}>TAMVER RESEARCH</a><div class="tv-footer-center tv-cityline tv-cityline-offset" aria-label="TAMVER locations"><button type="button" data-office-city="Madrid">MADRID</button><i aria-hidden="true"></i><button type="button" data-office-city="Vienna">VIENNA</button><i aria-hidden="true"></i><button type="button" data-office-city="Andorra">ANDORRA</button></div><a class="tv-footer-link tv-footer-right" href={L('/knowledge/')}>{m.footer.graph}</a></footer>
+<dialog class="tv-office-dialog" data-office-dialog aria-labelledby="office-dialog-title"><div class="tv-office-dialog-head"><span class="tv-eyebrow">{m.footer.contact}</span><button type="button" class="tv-office-dialog-close" aria-label={m.footer.close} data-office-close>×</button></div><h2 id="office-dialog-title" data-office-title>Office contact</h2><p data-office-copy></p><div class="tv-office-actions"><a href="mailto:info@tamver.eu">info@tamver.eu</a><a href="https://tamver.eu">tamver.eu ↗</a></div></dialog>
+<script is:inline define:vars={{officeIntro:m.footer.officeIntro,menuOpen:m.menu.open,menuClose:m.menu.close}}>
+(()=>{const button=document.querySelector('[data-menu-button]'),panel=document.querySelector('[data-menu-panel]'),close=document.querySelector('[data-menu-close]');const langButton=document.querySelector('[data-language-button]'),langPanel=document.querySelector('[data-language-panel]');const setMenu=(open)=>{if(!button||!panel)return;button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?menuClose:menuOpen);panel.setAttribute('aria-hidden',String(!open));panel.classList.toggle('is-open',open)};const setLang=(open)=>{if(!langButton||!langPanel)return;langButton.setAttribute('aria-expanded',String(open));langPanel.setAttribute('aria-hidden',String(!open));langPanel.classList.toggle('is-open',open)};button?.addEventListener('click',e=>{e.stopPropagation();setLang(false);setMenu(button.getAttribute('aria-expanded')!=='true')});close?.addEventListener('click',()=>setMenu(false));panel?.addEventListener('click',e=>e.stopPropagation());langButton?.addEventListener('click',e=>{e.stopPropagation();setMenu(false);setLang(langButton.getAttribute('aria-expanded')!=='true')});langPanel?.addEventListener('click',e=>e.stopPropagation());document.addEventListener('click',()=>{setMenu(false);setLang(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);setLang(false)}});
+const dialog=document.querySelector('[data-office-dialog]'),title=document.querySelector('[data-office-title]'),copy=document.querySelector('[data-office-copy]'),officeClose=document.querySelector('[data-office-close]');document.querySelectorAll('[data-office-city]').forEach(cityButton=>cityButton.addEventListener('click',()=>{const city=cityButton.getAttribute('data-office-city')||'TAMVER';if(title)title.textContent=`${city} · TAMVER`;if(copy)copy.textContent=`${officeIntro} ${city}.`;if(dialog&&typeof dialog.showModal==='function')dialog.showModal()}));officeClose?.addEventListener('click',()=>dialog?.close());dialog?.addEventListener('click',event=>{const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close()});})();
+</script>
+</body></html>

@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LedgerTraceExplorer from "../../components/LedgerTraceExplorer";
+---
+<BaseLayout title="Decision Evidence Ledger">
+  <section class="wrap" style="padding:110px 0 46px;text-align:center">
+    <div class="eyebrow">TAMVER RESEARCH / EVIDENCE INFRASTRUCTURE</div>
+    <h2 style="max-width:1050px;margin:22px auto">Decision Evidence Ledger</h2>
+    <p style="max-width:850px;margin:0 auto 50px">Backward provenance from an executive report claim to metric, formula, scenario nodes, validated evidence and original source. Public output is filtered through a separate publication gateway.</p>
+  </section>
+  <section style="padding:0 0 120px">
+    <LedgerTraceExplorer client:load claimId="claim-scm" />
+  </section>
+</BaseLayout>

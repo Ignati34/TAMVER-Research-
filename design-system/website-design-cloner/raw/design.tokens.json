@@ -1,0 +1,72 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "color": {
+    "background": {
+      "$value": "#050704",
+      "$type": "color",
+      "$extensions": {
+        "tamver.status": "inferred-calibrated"
+      }
+    },
+    "backgroundDeep": {
+      "$value": "#020302",
+      "$type": "color",
+      "$extensions": {
+        "tamver.status": "inferred-calibrated"
+      }
+    },
+    "olive": {
+      "$value": "#0b1008",
+      "$type": "color",
+      "$extensions": {
+        "tamver.status": "inferred-calibrated"
+      }
+    },
+    "paper": {
+      "$value": "#e8e8e6",
+      "$type": "color",
+      "$extensions": {
+        "tamver.status": "inferred-calibrated"
+      }
+    },
+    "ivory": {
+      "$value": "#f4f1ea",
+      "$type": "color",
+      "$extensions": {
+        "tamver.status": "inferred-calibrated"
+      }
+    },
+    "amber": {
+      "$value": "#f5c68b",
+      "$type": "color",
+      "$extensions": {
+        "tamver.status": "inferred-calibrated from observed glow"
+      }
+    },
+    "alert": {
+      "$value": "#df302b",
+      "$type": "color",
+      "$extensions": {
+        "tamver.status": "inferred for Motion Crystal only"
+      }
+    }
+  },
+  "radius": {
+    "card": {
+      "$value": "0px",
+      "$type": "dimension",
+      "$extensions": {
+        "tamver.status": "observed geometry"
+      }
+    }
+  },
+  "font": {
+    "body": {
+      "$value": "Helvetica Neue, Helvetica, Arial, sans-serif",
+      "$type": "fontFamily",
+      "$extensions": {
+        "tamver.status": "inferred fallback; original family unresolved"
+      }
+    }
+  }
+}

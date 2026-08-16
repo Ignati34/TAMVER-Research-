@@ -1,0 +1,4 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';import LedgerTraceExplorer from '../../../components/LedgerTraceExplorer';import { localizedLangs,isLang,type Lang } from '../../../i18n/config';import { t } from '../../../i18n/messages';export function getStaticPaths(){return localizedLangs.map(lang=>({params:{lang}}));}const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang,m=t(lang);
+---
+<BaseLayout title={m.ledger.title} lang={lang}><section class="wrap" style="padding:110px 0 46px;text-align:center"><div class="eyebrow">{m.ledger.eyebrow}</div><h2 style="max-width:1050px;margin:22px auto">{m.ledger.title}</h2><p style="max-width:850px;margin:0 auto 20px">{m.ledger.lead}</p><div class="tv-translation-note" style="max-width:850px;margin:20px auto 30px">{m.knowledge.fallback}</div></section><section style="padding:0 0 120px"><LedgerTraceExplorer client:load claimId="claim-scm" /></section></BaseLayout>

@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';import { getCollection } from 'astro:content';import { localizedLangs,isLang,type Lang } from '../../../i18n/config';import { t } from '../../../i18n/messages';import { localizeKnowledge } from '../../../i18n/knowledge';
+export function getStaticPaths(){return localizedLangs.map(lang=>({params:{lang}}));}const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang,m=t(lang);const items=(await getCollection('knowledge')).filter(x=>x.data.type==='methodology');
+---
+<BaseLayout title={m.methodologies.title} lang={lang}><section class="tv-section tv-shell"><div class="tv-eyebrow">{m.methodologies.eyebrow}</div><h1 class="tv-h1">{m.methodologies.title}</h1><div class="tv-grid">{items.map((item,i)=>{const id=item.id.replace(/\.(md|mdx)$/,'');const c=localizeKnowledge(id,lang,item.data.title,item.data.description);return <a class="tv-panel" style="grid-column:span 6" href={`/${lang}/knowledge/${id}/`}><span class="tv-index">{String(i+1).padStart(2,'0')}</span><h3>{c.title}</h3><p>{c.description}</p></a>})}</div></section></BaseLayout>

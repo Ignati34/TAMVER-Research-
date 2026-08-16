@@ -1,0 +1,16 @@
+/* website-design-cloner semantic output — observed/inferred provenance is documented in tokens */
+:root {
+  --tamver-color-background: #050704;
+  --tamver-color-background-deep: #020302;
+  --tamver-color-surface-dark: #0b1008;
+  --tamver-color-surface-light: #e8e8e6;
+  --tamver-color-foreground-dark: #f4f1ea;
+  --tamver-color-foreground-light: #2b2d29;
+  --tamver-color-energy: #f5c68b;
+  --tamver-color-energy-hot: #ffdca8;
+  --tamver-color-alert: #df302b;
+  --tamver-border-hairline: rgba(235,232,221,.18);
+  --tamver-radius-card: 0px;
+  --tamver-font-body: "Helvetica Neue", Helvetica, Arial, sans-serif; /* inferred fallback */
+  --tamver-tracking-wordmark: .34em;
+}

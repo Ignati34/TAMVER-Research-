@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { localizedLangs,isLang,type Lang } from '../../../i18n/config';
+import { t } from '../../../i18n/messages';
+import { localizeKnowledge } from '../../../i18n/knowledge';
+import { getMethodologyArticle } from '../../../i18n/methodology-content';
+
+export async function getStaticPaths(){
+  const items=await getCollection('knowledge');
+  return localizedLangs.flatMap(lang=>items.map(item=>({params:{lang,slug:item.id.replace(/\.(md|mdx)$/,'')},props:{item}})));
+}
+const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang;
+const m=t(lang);
+const {item}=Astro.props;
+const {Content}=await render(item);
+const id=item.id.replace(/\.(md|mdx)$/,'');
+const c=localizeKnowledge(id,lang,item.data.title,item.data.description);
+const translated=getMethodologyArticle(id,lang);
+---
+<BaseLayout title={c.title} description={c.description} lang={lang}>
+  <article class="tv-section tv-shell prose-wrap">
+    <div class="tv-eyebrow">TAMVER RESEARCH / {item.data.type}</div>
+    <h1 class="tv-h1">{c.title}</h1>
+    <p class="tv-lead">{c.description}</p>
+
+    {translated ? (
+      <div class="tv-prose tv-methodology-translation">
+        {translated.sections.map(section => (
+          <section class="tv-methodology-section">
+            <h2>{section.heading}</h2>
+            {section.paragraphs?.map(paragraph => <p>{paragraph}</p>)}
+            {section.bullets && <ul>{section.bullets.map(item => <li>{item}</li>)}</ul>}
+            {section.numbered && <ol>{section.numbered.map(item => <li>{item}</li>)}</ol>}
+          </section>
+        ))}
+      </div>
+    ) : (
+      <>
+        <div class="tv-translation-note">{m.knowledge.fallback}</div>
+        <div class="tv-prose"><Content/></div>
+      </>
+    )}
+  </article>
+</BaseLayout>

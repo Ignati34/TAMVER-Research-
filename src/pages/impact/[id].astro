@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EvidenceImpactCrystal from "../../components/EvidenceImpactCrystal";
+import { v12EvidenceFixture } from "../../lib/ledger/v12-fixture";
+export function getStaticPaths(){return v12EvidenceFixture.map(e=>({params:{id:e.id},props:{evidence:e}}))}
+const { evidence } = Astro.props;
+---
+<BaseLayout title={`Impact · ${evidence.title}`} description={`Evidence impact projection for ${evidence.title}`}>
+  <section class="tv-shell tv-section impact-hero-copy">
+    <div class="tv-eyebrow">EVIDENCE IMPACT / {evidence.status}</div>
+    <h1 class="tv-h1">{evidence.title}</h1>
+    <p class="tv-lead">{evidence.excerpt}</p>
+    <div style="margin-top:22px"><span class="tv-chip">QUALITY {evidence.qualityScore}</span><span class="tv-chip">CONFIDENCE {Math.round(evidence.confidence*100)}%</span><span class="tv-chip">ANALYST {evidence.analystValidated?'VALIDATED':'PENDING'}</span></div>
+  </section>
+  <section class="tv-section"><EvidenceImpactCrystal client:load evidenceId={evidence.id} /></section>
+</BaseLayout>

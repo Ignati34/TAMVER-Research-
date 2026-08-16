@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { terminology, termIds } from '../../i18n/terminology';
+import { localizedLangs, isLang, type Lang } from '../../i18n/config';
+export function getStaticPaths(){ return localizedLangs.map(lang=>({params:{lang}})); }
+const value=Astro.params.lang; if(!isLang(value)||value==='en') return Astro.redirect('/glossary/');
+const lang=value as Lang; const rows=termIds.map(id=>({id,...terminology[lang][id]}));
+const headings:Record<Exclude<Lang,'en'>,{eyebrow:string;title:string;lead:string;usage:string}>={
+ ru:{eyebrow:'TAMVER RESEARCH / КОНТРОЛИРУЕМАЯ ТЕРМИНОЛОГИЯ / v0.8.2',title:'Реестр\\nтерминов',lead:'Канонические термины TAMVER и утверждённые пояснительные эквиваленты. Английские канонические названия остаются стабильными идентификаторами всей мультиязычной системы.',usage:'Использование'},
+ es:{eyebrow:'TAMVER RESEARCH / TERMINOLOGÍA CONTROLADA / v0.8.2',title:'Registro\\nde terminología',lead:'Términos canónicos TAMVER y equivalentes explicativos aprobados. Las etiquetas canónicas en inglés siguen siendo identificadores estables del sistema multilingüe.',usage:'Uso'},
+ ca:{eyebrow:'TAMVER RESEARCH / TERMINOLOGIA CONTROLADA / v0.8.2',title:'Registre\\nde terminologia',lead:'Termes canònics TAMVER i equivalents explicatius aprovats. Les etiquetes canòniques en anglès continuen sent identificadors estables del sistema multilingüe.',usage:'Ús'},
+ fr:{eyebrow:'TAMVER RESEARCH / TERMINOLOGIE CONTRÔLÉE / v0.8.2',title:'Registre\\nde terminologie',lead:'Termes canoniques TAMVER et équivalents explicatifs approuvés. Les libellés canoniques anglais restent les identifiants stables du système multilingue.',usage:'Usage'},
+ de:{eyebrow:'TAMVER RESEARCH / KONTROLLIERTE TERMINOLOGIE / v0.8.2',title:'Terminologie-\\nregister',lead:'Kanonische TAMVER-Begriffe und freigegebene erklärende Entsprechungen. Englische kanonische Bezeichnungen bleiben stabile Identifikatoren des mehrsprachigen Systems.',usage:'Verwendung'},
+ it:{eyebrow:'TAMVER RESEARCH / TERMINOLOGIA CONTROLLATA / v0.8.2',title:'Registro\\nterminologico',lead:'Termini canonici TAMVER ed equivalenti esplicativi approvati. Le etichette canoniche inglesi restano identificatori stabili del sistema multilingue.',usage:'Uso'},
+ pt:{eyebrow:'TAMVER RESEARCH / TERMINOLOGIA CONTROLADA / v0.8.2',title:'Registo\\nde terminologia',lead:'Termos canónicos TAMVER e equivalentes explicativos aprovados. As etiquetas canónicas em inglês permanecem identificadores estáveis do sistema multilingue.',usage:'Utilização'}
+}; const h=headings[lang as Exclude<Lang,'en'>];
+const termLabel = (id: string) => id.replace(/([a-z0-9])([A-Z])/g, '$1 $2').toUpperCase();
+---
+<BaseLayout title="TAMVER Terminology" description="Controlled multilingual TAMVER terminology." lang={lang}>
+<section class="tv-page-shell tv-glossary-page"><p class="tv-eyebrow">{h.eyebrow}</p><h1>{h.title}</h1><p class="tv-lead">{h.lead}</p><div class="tv-glossary-grid">{rows.map(row => <article class="tv-glossary-card" id={row.id}><div class="tv-glossary-head"><span>{row.canonical}</span><code>{termLabel(row.id)}</code></div><h2>{row.localized}</h2><p>{row.definition}</p><div class="tv-term-usage"><strong>{h.usage}</strong><span>{row.usage}</span></div></article>)}</div></section>
+</BaseLayout>

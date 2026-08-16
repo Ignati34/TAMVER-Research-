@@ -1,0 +1,10 @@
+/* Tailwind v4 bridge. If project uses v3, map the same CSS variables in tailwind.config. */
+@theme inline {
+ --color-tamver-background: var(--tamver-color-background);
+ --color-tamver-surface: var(--tamver-color-surface-dark);
+ --color-tamver-paper: var(--tamver-color-surface-light);
+ --color-tamver-foreground: var(--tamver-color-foreground-dark);
+ --color-tamver-energy: var(--tamver-color-energy);
+ --color-tamver-alert: var(--tamver-color-alert);
+ --radius-tamver: var(--tamver-radius-card);
+}

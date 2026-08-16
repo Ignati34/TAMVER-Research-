@@ -1,0 +1,62 @@
+/*
+ TAMVER Research v0.6 — website-design-cloner synchronized tokens from tamver.eu
+ Source basis: website-design-cloner workflow; live tamver.eu + authorized full-page capture + motion reference. Dembrandt runtime execution unavailable; see WEBSITE_DESIGN_CLONER_RUN.md.
+ Where original CSS values were not observable, values are marked as calibrated approximations.
+*/
+:root {
+  /* Brand surfaces */
+  --tamver-black: #050704;
+  --tamver-black-deep: #020302;
+  --tamver-olive-black: #0b1008;
+  --tamver-olive: #171b10;
+  --tamver-paper: #e8e8e6;
+  --tamver-paper-soft: #f0f0ee;
+  --tamver-ink: #171916;
+
+  /* Text */
+  --tamver-white: #f4f1ea;
+  --tamver-text-on-dark: rgba(244,241,234,.92);
+  --tamver-text-muted: rgba(230,228,219,.62);
+  --tamver-text-on-light: #2b2d29;
+
+  /* Signature energy */
+  --tamver-amber: #f5c68b;
+  --tamver-amber-hot: #ffdca8;
+  --tamver-amber-soft: rgba(245,198,139,.22);
+  --tamver-alert: #df302b;
+  --tamver-alert-hot: #ff554f;
+
+  /* Structure */
+  --tamver-line: rgba(235,232,221,.18);
+  --tamver-line-soft: rgba(235,232,221,.095);
+  --tamver-line-on-light: rgba(23,25,22,.16);
+  --tamver-card: rgba(255,255,255,.024);
+
+  /* Type: family is calibrated fallback, not asserted original site font */
+  --tamver-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --tamver-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Spacing */
+  --tamver-gutter: clamp(22px, 4.2vw, 72px);
+  --tamver-section: clamp(78px, 9vw, 150px);
+  --tamver-radius: 0px;
+
+  /* Motion */
+  --tamver-ease: cubic-bezier(.22,.61,.36,1);
+  --tamver-fast: 180ms;
+  --tamver-medium: 520ms;
+  --tamver-slow: 1400ms;
+  /* Backward-compatible aliases used by v0.5 components */
+  --tv-black: var(--tamver-black);
+  --tv-black-2: var(--tamver-black-deep);
+  --tv-surface: var(--tamver-card);
+  --tv-line: var(--tamver-line);
+  --tv-line-strong: rgba(245,198,139,.30);
+  --tv-ice: var(--tamver-amber-hot);
+  --tv-silver: rgba(244,241,234,.70);
+  --tv-muted: rgba(244,241,234,.42);
+  --tv-white: var(--tamver-white);
+  --tv-glow: var(--tamver-amber-soft);
+  --tv-font: var(--tamver-body);
+
+}

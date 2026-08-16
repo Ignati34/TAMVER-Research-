@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LedgerTraceExplorer from "../../components/LedgerTraceExplorer";
+const { id } = Astro.params;
+---
+<BaseLayout title={`Evidence Trace — ${id}`}>
+  <section class="wrap" style="padding:110px 0 42px">
+    <div class="eyebrow">REPORT CLAIM / PROVENANCE</div>
+    <h2 style="max-width:1150px">Evidence Trace</h2>
+    <p>Claim ID: <code>{id}</code>. The browser connects to the v12 trace endpoint when <code>PUBLIC_TAMVER_LEDGER_API_BASE</code> is configured; otherwise the exact v12 demo trace is shown.</p>
+  </section>
+  <section style="padding-bottom:120px">
+    <LedgerTraceExplorer client:load claimId={id || "claim-scm"} />
+  </section>
+</BaseLayout>
