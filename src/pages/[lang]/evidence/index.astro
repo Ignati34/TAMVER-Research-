@@ -1,4 +1,38 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';import { v12EvidenceFixture } from '../../../lib/ledger/v12-fixture';import { sanitizeEvidence } from '../../../lib/ledger/publication-gateway';import { localizedLangs,isLang,type Lang } from '../../../i18n/config';import { t } from '../../../i18n/messages';export function getStaticPaths(){return localizedLangs.map(lang=>({params:{lang}}));}const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang,m=t(lang);const items=v12EvidenceFixture.map(sanitizeEvidence).filter(Boolean);
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { v12EvidenceFixture } from '../../../lib/ledger/v12-fixture';
+import { sanitizeEvidence } from '../../../lib/ledger/publication-gateway';
+import { localizedLangs,isLang,type Lang } from '../../../i18n/config';
+import { t } from '../../../i18n/messages';
+import { localizeEvidenceItem } from '../../../i18n/evidence-content';
+
+export function getStaticPaths(){
+  return localizedLangs.map(lang=>({params:{lang}}));
+}
+
+const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang;
+const m=t(lang);
+const items=v12EvidenceFixture
+  .map(sanitizeEvidence)
+  .filter(Boolean)
+  .map((item:any)=>localizeEvidenceItem(item,lang));
 ---
-<BaseLayout title={m.evidence.title} lang={lang}><section class="tv-shell tv-section"><div class="tv-eyebrow">{m.evidence.eyebrow}</div><h1 class="tv-h1">{m.evidence.title}</h1><p class="tv-lead">{m.evidence.lead}</p><div class="tv-translation-note">{m.knowledge.fallback}</div><div class="tv-grid" style="margin-top:60px">{items.map((item:any)=><article class="tv-panel" style="grid-column:span 4"><span class="tv-index">{item.status} · Q{item.qualityScore}</span><h3>{item.title}</h3><p>{item.excerpt}</p><div><a class="tv-chip" href={`/evidence/${item.id}/`}>{m.evidence.provenance}</a><a class="tv-chip" href={`/impact/${item.id}/`}>{m.evidence.impact}</a></div></article>)}</div></section></BaseLayout>
+<BaseLayout title={m.evidence.title} lang={lang}>
+  <section class="tv-shell tv-section">
+    <div class="tv-eyebrow">{m.evidence.eyebrow}</div>
+    <h1 class="tv-h1">{m.evidence.title}</h1>
+    <p class="tv-lead">{m.evidence.lead}</p>
+
+    <div class="tv-grid" style="margin-top:60px">
+      {items.map((item:any)=><article class="tv-panel" style="grid-column:span 4">
+        <span class="tv-index">{item.status} · Q{item.qualityScore}</span>
+        <h3>{item.title}</h3>
+        <p>{item.excerpt}</p>
+        <div>
+          <a class="tv-chip" href={`/evidence/${item.id}/`}>{m.evidence.provenance}</a>
+          <a class="tv-chip" href={`/impact/${item.id}/`}>{m.evidence.impact}</a>
+        </div>
+      </article>)}
+    </div>
+  </section>
+</BaseLayout>
