@@ -3,9 +3,10 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 import { localizedLangs,isLang,type Lang } from '../../../i18n/config';
 import { t } from '../../../i18n/messages';
-import { localizeKnowledge } from '../../../i18n/knowledge';
+import { localizeKnowledge, localizeKnowledgeType } from '../../../i18n/knowledge';
 import { getMethodologyArticle } from '../../../i18n/methodology-content';
 import { getResearchKnowledgeArticle } from '../../../i18n/research-knowledge-content';
+import { relatedUi } from '../../../i18n/related-ui';
 
 export async function getStaticPaths(){
   const items=await getCollection('knowledge');
@@ -13,15 +14,26 @@ export async function getStaticPaths(){
 }
 const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang;
 const m=t(lang);
+const relatedCopy=relatedUi(lang);
 const {item}=Astro.props;
 const {Content}=await render(item);
 const id=item.id.replace(/\.(md|mdx)$/,'');
 const c=localizeKnowledge(id,lang,item.data.title,item.data.description);
 const translated=getMethodologyArticle(id,lang) ?? getResearchKnowledgeArticle(id,lang);
+const allItems=await getCollection('knowledge');
+const relatedIds=Array.isArray(item.data.related)?item.data.related:[];
+const relatedItems=allItems
+  .filter(candidate=>relatedIds.includes(candidate.id.replace(/\.(md|mdx)$/,'')))
+  .slice(0,4)
+  .map(candidate=>{
+    const relatedId=candidate.id.replace(/\.(md|mdx)$/,'');
+    const localized=localizeKnowledge(relatedId,lang,candidate.data.title,candidate.data.description);
+    return {id:relatedId,title:localized.title,description:localized.description,type:localizeKnowledgeType(candidate.data.type,lang)};
+  });
 ---
 <BaseLayout title={c.title} description={c.description} lang={lang}>
   <article class="tv-section tv-shell prose-wrap">
-    <div class="tv-eyebrow">TAMVER RESEARCH / {item.data.type}</div>
+    <div class="tv-eyebrow">TAMVER RESEARCH / {localizeKnowledgeType(item.data.type,lang)}</div>
     <h1 class="tv-h1">{c.title}</h1>
     <p class="tv-lead">{c.description}</p>
 
@@ -42,5 +54,38 @@ const translated=getMethodologyArticle(id,lang) ?? getResearchKnowledgeArticle(i
         <div class="tv-prose"><Content/></div>
       </>
     )}
+
+    <section class="related-system">
+      <div class="tv-eyebrow">{relatedCopy.eyebrow}</div>
+      <h2>{relatedCopy.title}</h2>
+      {relatedItems.length>0 && <div class="related-grid">
+        {relatedItems.map(related=><a class="related-card" href={`/${lang}/knowledge/${related.id}/`}>
+          <span>{related.type}</span>
+          <strong>{related.title}</strong>
+          <p>{related.description}</p>
+        </a>)}
+      </div>}
+      <nav class="system-links" aria-label={relatedCopy.eyebrow}>
+        <a href={`/${lang}/research/`}>{relatedCopy.research}</a>
+        <a href={`/${lang}/methodologies/`}>{relatedCopy.methodologies}</a>
+        <a href={`/${lang}/evidence/`}>{relatedCopy.evidence}</a>
+        <a href={`/${lang}/ledger/`}>{relatedCopy.ledger}</a>
+      </nav>
+    </section>
   </article>
 </BaseLayout>
+
+<style>
+.related-system{margin-top:84px;padding-top:34px;border-top:1px solid var(--tamver-line-soft)}
+.related-system h2{font-family:var(--tamver-display);font-weight:300;font-size:clamp(28px,3.3vw,48px);line-height:1;margin:14px 0 28px;max-width:760px}
+.related-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.related-card{border:1px solid var(--tamver-line-soft);padding:20px;min-height:170px;transition:.25s var(--tamver-ease)}
+.related-card:hover{transform:translateY(-2px);border-color:rgba(245,198,139,.30);background:rgba(245,198,139,.025)}
+.related-card span{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,241,234,.4)}
+.related-card strong{display:block;margin-top:12px;font-size:16px;font-weight:350;line-height:1.2}
+.related-card p{font-size:12px;line-height:1.5;color:rgba(244,241,234,.48);margin:10px 0 0}
+.system-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.system-links a{border:1px solid var(--tamver-line-soft);padding:9px 12px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,241,234,.62)}
+.system-links a:hover{border-color:rgba(245,198,139,.32);color:var(--tamver-white)}
+@media(max-width:760px){.related-grid{grid-template-columns:1fr}}
+</style>
