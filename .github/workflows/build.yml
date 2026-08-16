@@ -23,3 +23,6 @@ jobs:
 
       - name: Build Astro site
         run: npm run build
+
+      - name: Confirm static output
+        run: test -d dist && test -f dist/index.html
