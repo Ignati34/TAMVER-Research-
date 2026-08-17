@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { localizedLangs, isLang, type Lang } from '../../../i18n/config';
+import { localizeEvidenceItem } from '../../../i18n/evidence-content';
+import { evidenceUi } from '../../../i18n/evidence-ui';
+import { v12EvidenceFixture, v12TraceFixture } from '../../../lib/ledger/v12-fixture';
+import { sanitizeEvidence } from '../../../lib/ledger/publication-gateway';
+
+export function getStaticPaths(){
+  return localizedLangs.flatMap(lang =>
+    v12EvidenceFixture.map(evidence => ({ params:{lang,id:evidence.id} }))
+  );
+}
+
+const lang=(isLang(Astro.params.lang)?Astro.params.lang:'en') as Lang;
+const raw=v12EvidenceFixture.find(e=>e.id===Astro.params.id);
+if(!raw) return Astro.redirect(`/${lang}/evidence/`);
+const sanitized=sanitizeEvidence(raw) as any;
+const item=localizeEvidenceItem(sanitized,lang);
+const ui=evidenceUi(lang);
+const source=v12TraceFixture.nodes.find(n=>n.id===raw.sourceId && n.kind==='SOURCE');
+---
+<BaseLayout title={item.title} description={item.excerpt} lang={lang}>
+  <article class="tv-section tv-shell evidence-detail">
+    <nav class="detail-nav" aria-label="Breadcrumb">
+      <a href={`/${lang}/evidence/`}>← {ui.backToRegistry}</a>
+    </nav>
+
+    <div class="tv-eyebrow">{ui.provenanceEyebrow} / {item.id}</div>
+    <h1 class="tv-h1">{item.title}</h1>
+    <p class="tv-lead">{item.excerpt}</p>
+
+    <div class="facts">
+      <span>{ui.status} <b>{item.status}</b></span>
+      <span>{ui.quality} <b>Q{item.qualityScore}</b></span>
+      <span>{ui.confidence} <b>{Math.round((item.confidence ?? 0)*100)}%</b></span>
+      <span>{ui.analyst} <b>{item.analystValidated ? ui.validated : ui.pending}</b></span>
+    </div>
+
+    <section>
+      <div class="tv-eyebrow">{ui.sourceLineage}</div>
+      <div class="source-row">
+        <span>{raw.sourceId}</span>
+        <strong>{source?.label ?? raw.sourceId}</strong>
+        <em>{String(source?.details?.sourceType ?? 'SOURCE').replaceAll('_',' ')}</em>
+      </div>
+    </section>
+
+    <div class="detail-actions">
+      <a class="tv-chip primary" href={`/${lang}/impact/${item.id}/`}>{ui.openImpact}</a>
+      <a class="tv-chip" href={`/${lang}/evidence/`}>{ui.backToRegistry}</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+.evidence-detail{max-width:1080px}.detail-nav{margin-bottom:36px}.detail-nav a{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,241,234,.54)}.facts{display:flex;flex-wrap:wrap;gap:30px;padding:22px 0;margin:42px 0 64px;border-top:1px solid var(--tamver-line-soft);border-bottom:1px solid var(--tamver-line-soft);font-size:9px;letter-spacing:.15em;color:rgba(244,241,234,.42)}.facts b{color:rgba(244,241,234,.82);font-weight:400}.evidence-detail section{margin:52px 0}.source-row{display:grid;grid-template-columns:220px 1fr auto;gap:18px;padding:20px 0;border-top:1px solid var(--tamver-line-soft)}.source-row span,.source-row em{font-size:9px;letter-spacing:.12em;color:rgba(244,241,234,.42);font-style:normal;text-transform:uppercase}.source-row strong{font-size:14px;font-weight:400}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:44px}.detail-actions .primary{border-color:rgba(245,198,139,.34);color:var(--tamver-white)}@media(max-width:750px){.facts{flex-direction:column;gap:10px}.source-row{grid-template-columns:1fr}.source-row em{display:none}}
+</style>
